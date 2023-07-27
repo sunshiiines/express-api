@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building API with ExpressJS</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <h1>Greet API Widget</h1>
+
+    <div x-data="{
+        username : 'Yoda',
+        greeting : 'Hello',
+        language : 'english',
+        greet() {
+            // call the api and get a greeting back
+            axios
+                .get(`/api/greet?username=${this.username}&language=${this.language}`)
+                .then(result => {
+
+                    if (result.data.error) {
+                        this.greeting = result.data.error
+                    } else {
+                        this.greeting = result.data.message
+                    }
+
+                })
+        }
+       }">
+
+        <div x-text="greeting">
+
+        </div>
+
+        <div>
+            <input type="radio" x-model="language" value="english" id="english"> 
+            <label for="english">English</label>
+            <input type="radio" x-model="language" value="xhosa" id="xhosa">
+            <label for="xhosa">Xhosa</label>
+            <input type="radio" x-model="language" value="zulu" id="zulu">
+            <label for="zulu"> Zulu </label>
+        </div>
+
+        
+        <input type="text" x-model="username">
+        <input type="button" value="Greet" x-on:click="greet()">
+    </div>
+    <div>
+        <h2>Add language support</h2>
+        <div>
+            <input type="text" x-model="new_language" placeholder="type new language here">
+            <input type="text" x-model="new_greeting" placeholder="type new greeting here">
+            <button>Add Language</button>
+        </div>
+    </div>
+</body>
+
+</html>
